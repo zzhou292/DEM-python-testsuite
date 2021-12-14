@@ -11,7 +11,20 @@ class DEMSystem:
         self.domain_z = z
         self.radius = r
 
-    
+      def set_collision_factor(self, stiff, damp):
+            self.stiffness = stiff
+            self.damping = damp
+
+      def forward(self,timestep):
+            n = len(pos_list)
+            for i in range(n):
+                  for j in range(n):
+                        if i != j:
+                              pos1 = pos_list[i]
+                              pos2 = pos_list[j]
+                              
+                              
+
     
       
 
@@ -51,8 +64,13 @@ for k in range (0,2,1):
             vel.append(0)
             vel_list.append(vel)
 
-            fix_list.append(True)
+            if k == 0:
+              fix_list.append(True)
+            else:
+              fix_list.append(False)
 
 dem1 = DEMSystem(pos_list,vel_list, fix_list)
+dem1.set_collision_factor(5000, 1000)
+
 
 dem1.csv_output("test")
