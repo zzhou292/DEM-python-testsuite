@@ -99,6 +99,21 @@ class DEMSystem:
                                   acc[j][2] += - frc[2] / self.mass
 
             # handle bounding conditions
+            for i in range(n):
+              pos = pos_list[i]
+              hit_bd = False
+              if abs(pos[0])>=domain_x/2:
+                hit_bd = True
+              elif abs(pos[1])>=domain_y/2:
+                hit_bd = True
+              elif abs(pos[2])>=domain_z/2:
+                hit_bd = True
+
+            
+              if hit_bd == True:
+                vel_list[i][0] = - vel_list[i][0] * 0.8 
+                vel_list[i][1] = - vel_list[i][1] * 0.8 
+                vel_list[i][2] = - vel_list[i][2] * 0.8 
             
             
             for i in range(n):
@@ -106,12 +121,12 @@ class DEMSystem:
               if self.fix_list[i]==False:
                 acc[i][2] += -9.8
 
-              self.vel_list[i][0] += acc[i][0] * timestep
-              self.vel_list[i][1] += acc[i][1] * timestep
-              self.vel_list[i][2] += acc[i][2] * timestep
-              self.pos_list[i][0] += self.vel_list[i][0] * timestep
-              self.pos_list[i][1] += self.vel_list[i][1] * timestep
-              self.pos_list[i][2] += self.vel_list[i][2] * timestep
+                self.vel_list[i][0] += acc[i][0] * timestep
+                self.vel_list[i][1] += acc[i][1] * timestep
+                self.vel_list[i][2] += acc[i][2] * timestep
+                self.pos_list[i][0] += self.vel_list[i][0] * timestep
+                self.pos_list[i][1] += self.vel_list[i][1] * timestep
+                self.pos_list[i][2] += self.vel_list[i][2] * timestep
 
       def csv_output(self, filename):
           with open(filename+'.csv', 'w', newline='') as csvfile:
@@ -126,7 +141,7 @@ class DEMSystem:
 
 domain_x = 6
 domain_y = 6
-domain_z = 6
+domain_z = 3
 radius = 0.2
 tol = 0.05
 pos_list = []
@@ -149,18 +164,16 @@ for k in range (0,2,1):
             vel.append(0)
             vel_list.append(vel)
 
-            if k == 0:
-              fix_list.append(True)
-            else:
-              fix_list.append(False)
+            fix_list.append(False)
+
 
 dem1 = DEMSystem(pos_list,vel_list, fix_list)
 dem1.enforce_init_para(domain_x, domain_y, domain_z, radius , 4)
 dem1.set_collision_factor(150, 1e8)
 
-for i in range(2000):
+for i in range(1000):
   print(i)
-  dem1.forward(0.0025)
+  dem1.forward(0.005)
   dem1.csv_output("fld/test"+str(i))
 
 
