@@ -3,7 +3,7 @@ import os
 import math
 
 # You should change 'test' to your preferred folder.
-MYDIR = ("fld3")
+MYDIR = ("fld_6layer_gt")
 MYDIR1 = ("col")
 CHECK_FOLDER = os.path.isdir(MYDIR)
 CHECK_FOLDER1 = os.path.isdir(MYDIR1)
@@ -63,7 +63,7 @@ dem1 = DEMSystem(pos_list,vel_list, fix_list)
 density = 4000
 mass = radius*radius*radius*4/3*math.pi*density
 dem1.enforce_init_para(domain_x, domain_y, domain_z, radius , mass)
-dem1.set_collision_factor(1e5, 1e8, 1e8)
+dem1.set_collision_factor(1e5, 1e8, 1e9)
 dem1.set_col_out(False)
 #dem1.set_use_ml("ml/my_model.h5")
 
@@ -75,7 +75,7 @@ for i in range(50000):
   print(str(i) + " ke: "+str(ke) )
   dem1.forward(0.0001)
   if i%write_skip == 0:
-      dem1.csv_output("fld3/test"+str(write_count))
+      dem1.csv_output("fld_6layer_gt/test"+str(write_count))
       #dem1.col_output("col/test"+str(write_count))
      #dem1.print_col_pair("col/test"+str(write_count))
       write_count=write_count+1

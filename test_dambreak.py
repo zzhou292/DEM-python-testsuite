@@ -65,7 +65,7 @@ dem1 = DEMSystem(pos_list,vel_list, fix_list)
 density = 4000
 mass = radius*radius*radius*4/3*math.pi*density
 dem1.enforce_init_para(domain_x, domain_y, domain_z, radius , mass)
-dem1.set_collision_factor(1e5, 1e8, 1e8)
+dem1.set_collision_factor(1e5, 1e8, 1e9)
 dem1.set_col_out(False)
 dem1.set_use_ml("ml/my_model.h5")
 
